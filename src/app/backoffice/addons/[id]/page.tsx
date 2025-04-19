@@ -1,6 +1,7 @@
 import { Box, Button, Checkbox, FormControlLabel, TextField, Typography } from '@mui/material';
 import { getMenuCategories } from '../../menu-categories/actions';
-import { deleteMenu, getMenu, updateMenu } from '../actions';
+import { deleteAddon, getAddon, updateAddon } from '../actions';
+import { getAddonCategories } from '../../addon-categories/actions';
 
 interface Props {
   params: {
@@ -8,17 +9,16 @@ interface Props {
   };
 }
 
-export default async function MenuUpdatePage({ params }: Props) {
+export default async function AddonUpdatePage({ params }: Props) {
   const { id } = await params;
-  const menu = await getMenu(Number(id));
-  const selected = menu?.menuCategoriesMenus.map(item => item.menuCategoryId);
-  const menuCategories = await getMenuCategories();
+  const addon = await getAddon(Number(id));
+  const addonCategories = await getAddonCategories();
 
   return (
     <>
       <Box
         component={'form'}
-        action={deleteMenu}
+        action={deleteAddon}
         sx={{ display: 'flex', justifyContent: 'flex-end' }}
       >
         <input type="hidden" value={id} name="id" />
@@ -29,35 +29,35 @@ export default async function MenuUpdatePage({ params }: Props) {
 
       <Box
         component={'form'}
-        action={updateMenu}
+        action={updateAddon}
         sx={{ mt: 2, display: 'flex', flexDirection: 'column' }}
       >
-        <TextField defaultValue={menu?.name} name="name" />
-        <TextField defaultValue={menu?.price} sx={{ my: 2 }} name="price" />
         <input type="hidden" value={id} name="id" />
+        <TextField defaultValue={addon.name} label="Name" name="name" />
+        <TextField defaultValue={addon.price} sx={{ my: 2 }} label="Price" name="price" />
+
         <Box>
-          <Typography sx={{ mb: 1 }}>Menu Categories</Typography>
+          <Typography sx={{ mb: 1 }}>Addon Categories</Typography>
           <Box sx={{ border: '1px solid lightgrey', borderRadius: 1, px: 1.2, py: 1 }}>
-            {menuCategories.map(menuCategory => (
+            {addonCategories.map(addonCategory => (
               <FormControlLabel
-                key={menuCategory.id}
+                key={addonCategory.id}
                 control={
                   <Checkbox
-                    defaultChecked={selected?.includes(menuCategory.id)}
-                    name="menuCategories"
-                    value={menuCategory.id}
+                    name="addonCategoryId"
+                    value={addonCategory.id}
+                    defaultChecked={addonCategory.id === addon.addonCategoryId}
                   />
                 }
-                label={menuCategory.name}
+                label={addonCategory.name}
               />
             ))}
           </Box>
         </Box>
 
         <FormControlLabel
-          control={<Checkbox defaultChecked={menu?.isAvailable ? true : false} />}
+          control={<Checkbox defaultChecked={addon.isAvailable} name="isAvailable" />}
           label="Available"
-          name="isAvailable"
         />
 
         <Button type="submit" variant="contained" sx={{ width: 'fit-content', mt: 3 }}>
