@@ -1,7 +1,12 @@
 import SignIn from '@/app/auth/signin/page';
 import { config } from '@/config';
-import NextAuth from 'next-auth';
+import NextAuth, { User } from 'next-auth';
+import { AdapterUser } from 'next-auth/adapters';
 import GoogleProvider from 'next-auth/providers/google';
+
+interface Props {
+  user: User | AdapterUser;
+}
 
 export const authOptions = {
   providers: [
@@ -14,7 +19,7 @@ export const authOptions = {
     signIn: '/auth/signin',
   },
   callback: {
-    async SignIn() {
+    async SignIn({ user }: Props) {
       return true;
     },
   },
