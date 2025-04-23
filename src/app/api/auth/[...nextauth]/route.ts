@@ -1,5 +1,7 @@
 import SignIn from '@/app/auth/signin/page';
 import { config } from '@/config';
+import { createDefaultUser } from '@/libs/actions';
+import { prisma } from '@/libs/prisma';
 import NextAuth, { User } from 'next-auth';
 import { AdapterUser } from 'next-auth/adapters';
 import GoogleProvider from 'next-auth/providers/google';
@@ -20,6 +22,12 @@ export const authOptions = {
   },
   callback: {
     async SignIn({ user }: Props) {
+      const dbUser = await prisma.users.findFirst({
+        where: { email: user.email as string },
+      });
+      if (!dbUser) {
+        await createDefaultUser(user);
+      }
       return true;
     },
   },
