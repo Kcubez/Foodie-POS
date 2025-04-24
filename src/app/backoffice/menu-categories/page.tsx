@@ -2,10 +2,10 @@ import { Box, Button, Card } from '@mui/material';
 import ItemCard from '@/components/ItemCard';
 import CategoryIcon from '@mui/icons-material/Category';
 import Link from 'next/link';
-import { prisma } from '@/libs/prisma';
+import { getCompanyMenuCategories } from '@/libs/actions';
 
 export default async function MenuCategoriesPage() {
-  const menuCategories = await prisma.menuCategories.findMany();
+  const menuCategories = await getCompanyMenuCategories();
 
   return (
     <>

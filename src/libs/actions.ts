@@ -74,3 +74,11 @@ export async function getCompanyId() {
   });
   return company?.id;
 }
+
+export async function getCompanyMenuCategories() {
+  const companyId = await getCompanyId();
+  const menuCategories = await prisma.menuCategories.findMany({
+    where: { companyId },
+  });
+  return menuCategories;
+}
