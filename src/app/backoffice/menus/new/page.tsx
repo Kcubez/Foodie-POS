@@ -1,9 +1,9 @@
 import { Box, Button, Checkbox, FormControlLabel, TextField, Typography } from '@mui/material';
-import { getMenuCategories } from '../../menu-categories/actions';
 import { createMenus } from '../actions';
+import { getCompanyMenuCategories } from '@/libs/actions';
 
 export default async function NewMenuPage() {
-  const menuCategories = await getMenuCategories();
+  const menuCategories = await getCompanyMenuCategories();
 
   return (
     <Box

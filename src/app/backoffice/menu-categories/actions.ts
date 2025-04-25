@@ -3,11 +3,6 @@
 import { prisma } from '@/libs/prisma';
 import { redirect } from 'next/navigation';
 
-export async function getMenuCategories() {
-  const menuCategories = await prisma.menuCategories.findMany();
-  return menuCategories;
-}
-
 export async function updateMenuCategory(formData: FormData) {
   const updateMenuCategoryName = formData.get('menuCategoryName') as string;
   const menuCategoryId = formData.get('menuCategoryId');
@@ -21,10 +16,10 @@ export async function updateMenuCategory(formData: FormData) {
 }
 
 export async function createNewMenuCategory(formData: FormData) {
-  const newMenuCategoryName = formData.get('menuCategoryName') as string;
+  const name = formData.get('menuCategoryName') as string;
   await prisma.menuCategories.create({
     data: {
-      name: newMenuCategoryName,
+      name,
     },
   });
   redirect('/backoffice/menu-categories');

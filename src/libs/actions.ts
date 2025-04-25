@@ -9,7 +9,7 @@ export async function getUser(email: string) {
   });
 }
 
-export async function createDefaultUser(nextUser: User) {
+export async function createDefaultData(nextUser: User) {
   const { name, email } = nextUser;
   const company = await prisma.company.create({
     data: {

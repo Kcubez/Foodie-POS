@@ -1,6 +1,6 @@
 import { Box, Button, Checkbox, FormControlLabel, TextField, Typography } from '@mui/material';
-import { getMenuCategories } from '../../menu-categories/actions';
 import { deleteMenu, getMenu, updateMenu } from '../actions';
+import { getCompanyMenuCategories } from '@/libs/actions';
 
 interface Props {
   params: {
@@ -12,7 +12,7 @@ export default async function MenuUpdatePage({ params }: Props) {
   const { id } = await params;
   const menu = await getMenu(Number(id));
   const selected = menu?.menuCategoriesMenus.map(item => item.menuCategoryId);
-  const menuCategories = await getMenuCategories();
+  const menuCategories = await getCompanyMenuCategories();
 
   return (
     <>
