@@ -1,6 +1,6 @@
 import { Box, Button, Checkbox, FormControlLabel, TextField, Typography } from '@mui/material';
-import { deleteAddon, getAddon, updateAddon } from '../actions';
 import { getCompanyAddonCategories } from '@/libs/actions';
+import { deleteTable, getTable, updateTable } from '../actions';
 
 interface Props {
   params: {
@@ -10,14 +10,14 @@ interface Props {
 
 export default async function AddonUpdatePage({ params }: Props) {
   const { id } = await params;
-  const addon = await getAddon(Number(id));
+  const addon = await getTable(Number(id));
   const addonCategories = await getCompanyAddonCategories();
 
   return (
     <>
       <Box
         component={'form'}
-        action={deleteAddon}
+        action={deleteTable}
         sx={{ display: 'flex', justifyContent: 'flex-end' }}
       >
         <input type="hidden" value={id} name="id" />
@@ -28,36 +28,11 @@ export default async function AddonUpdatePage({ params }: Props) {
 
       <Box
         component={'form'}
-        action={updateAddon}
+        action={updateTable}
         sx={{ mt: 2, display: 'flex', flexDirection: 'column' }}
       >
         <input type="hidden" value={id} name="id" />
         <TextField defaultValue={addon.name} label="Name" name="name" />
-        <TextField defaultValue={addon.price} sx={{ my: 2 }} label="Price" name="price" />
-
-        <Box>
-          <Typography sx={{ mb: 1 }}>Addon Categories</Typography>
-          <Box sx={{ border: '1px solid lightgrey', borderRadius: 1, px: 1.2, py: 1 }}>
-            {addonCategories.map(addonCategory => (
-              <FormControlLabel
-                key={addonCategory.id}
-                control={
-                  <Checkbox
-                    name="addonCategoryId"
-                    value={addonCategory.id}
-                    defaultChecked={addonCategory.id === addon.addonCategoryId}
-                  />
-                }
-                label={addonCategory.name}
-              />
-            ))}
-          </Box>
-        </Box>
-
-        <FormControlLabel
-          control={<Checkbox defaultChecked={addon.isAvailable} name="isAvailable" />}
-          label="Available"
-        />
 
         <Button type="submit" variant="contained" sx={{ width: 'fit-content', mt: 3 }}>
           Update

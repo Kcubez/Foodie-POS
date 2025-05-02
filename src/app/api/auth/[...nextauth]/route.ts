@@ -19,10 +19,14 @@ export const authOptions = {
   pages: {
     signIn: '/auth/signin',
   },
-  callback: {
-    async SignIn({ user }: Props) {
-      console.log('user', user);
-      console.log('user.email', user.email);
+  callbacks: {
+    async signIn({ user }: Props) {
+      const dbUser = await prisma.users.findFirst({
+        where: { email: user.email as string },
+      });
+      if (!dbUser) {
+        await createDefaultData(user);
+      }
       return true;
     },
   },

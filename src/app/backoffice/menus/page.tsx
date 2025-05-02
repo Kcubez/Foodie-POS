@@ -1,18 +1,10 @@
 import MenuCard from '@/components/MenuCard';
-import { getCompanyMenuCategories } from '@/libs/actions';
-import { prisma } from '@/libs/prisma';
+import { getCompanyMenuCategories, getCompanyMenus } from '@/libs/actions';
 import { Box, Button } from '@mui/material';
-import { get } from 'http';
 import Link from 'next/link';
 
 export default async function MenusPage() {
-  const menuCategories = await getCompanyMenuCategories();
-  const menuCategoryIds = menuCategories.map(menuCategory => menuCategory.id);
-  const menuCategoriesMenus = await prisma.menuCategoriesMenus.findMany({
-    where: { menuCategoryId: { in: menuCategoryIds } },
-  });
-  const menuIds = menuCategoriesMenus.map(menuCategoryMenu => menuCategoryMenu.menuId);
-  const menus = await prisma.menus.findMany({ where: { id: { in: menuIds } } });
+  const menus = await getCompanyMenus();
 
   return (
     <>

@@ -2,10 +2,10 @@ import { Box, Button, Card } from '@mui/material';
 import ItemCard from '@/components/ItemCard';
 import ClassIcon from '@mui/icons-material/Class';
 import Link from 'next/link';
-import { prisma } from '@/libs/prisma';
+import { getCompanyAddonCategories } from '@/libs/actions';
 
 export default async function AddonCategoriesPage() {
-  const addonCategories = await prisma.addonCategories.findMany();
+  const addonCategories = await getCompanyAddonCategories();
 
   return (
     <>

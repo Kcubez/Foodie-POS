@@ -1,12 +1,11 @@
 import { Box, Button, Card } from '@mui/material';
 import ItemCard from '@/components/ItemCard';
-import EggIcon from '@mui/icons-material/Egg';
+import TableBarIcon from '@mui/icons-material/TableBar';
 import Link from 'next/link';
-import { prisma } from '@/libs/prisma';
-import { getCompanyAddons } from '@/libs/actions';
+import { getCompanyTables } from '@/libs/actions';
 
-export default async function AddonsPage() {
-  const addons = await getCompanyAddons();
+export default async function TablessPage() {
+  const tables = await getCompanyTables();
 
   return (
     <>
@@ -16,7 +15,7 @@ export default async function AddonsPage() {
           justifyContent: 'flex-end',
         }}
       >
-        <Link href="/backoffice/addons/new">
+        <Link href="/backoffice/tables/new">
           <Button
             variant="contained"
             sx={{
@@ -26,17 +25,17 @@ export default async function AddonsPage() {
               '&:hover': { bgcolor: '#2d4466' },
             }}
           >
-            New addon
+            New Table
           </Button>
         </Link>
       </Box>
       <Box sx={{ mt: 3, display: 'flex', flexWrap: 'wrap' }}>
-        {addons.map(addon => (
+        {tables.map(table => (
           <ItemCard
-            key={addon.id}
-            icon={<EggIcon fontSize="large" />}
-            title={addon.name}
-            href={`/backoffice/addons/${addon.id}`}
+            key={table.id}
+            icon={<TableBarIcon fontSize="large" />}
+            title={table.name}
+            href={`/backoffice/tables/${table.id}`}
             isAvailable
           />
         ))}

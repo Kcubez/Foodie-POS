@@ -1,9 +1,9 @@
 import { Box, Button, Checkbox, FormControlLabel, TextField, Typography } from '@mui/material';
 import { createAddons } from '../actions';
-import { getAddonCategories } from '../../addon-categories/actions';
+import { getCompanyAddonCategories } from '@/libs/actions';
 
 export default async function NewAddonPage() {
-  const addonCategories = await getAddonCategories();
+  const addonCategories = await getCompanyAddonCategories();
 
   return (
     <Box

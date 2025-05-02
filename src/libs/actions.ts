@@ -82,3 +82,52 @@ export async function getCompanyMenuCategories() {
   });
   return menuCategories;
 }
+
+export async function getCompanyMenus() {
+  const menuCategories = await getCompanyMenuCategories();
+  const menuCategoryIds = menuCategories.map(menuCategory => menuCategory.id);
+  const menuCategoriesMenus = await prisma.menuCategoriesMenus.findMany({
+    where: { menuCategoryId: { in: menuCategoryIds } },
+  });
+  const menuIds = menuCategoriesMenus.map(menuCategoryMenu => menuCategoryMenu.menuId);
+  return await prisma.menus.findMany({ where: { id: { in: menuIds } } });
+}
+
+export async function getCompanyAddonCategories() {
+  const menus = await getCompanyMenus();
+  const menuIds = menus.map(menu => menu.id);
+  const menusAddonCategories = await prisma.menusAddonCategories.findMany({
+    where: { menuId: { in: menuIds } },
+  });
+  const addonCategoryIds = menusAddonCategories.map(
+    menuAddonCategory => menuAddonCategory.addonCategoryId
+  );
+  return await prisma.addonCategories.findMany({
+    where: { id: { in: addonCategoryIds } },
+  });
+}
+
+export async function getCompanyAddons() {
+  const addonCategories = await getCompanyAddonCategories();
+  const addonCategoryIds = addonCategories.map(addonCategory => addonCategory.id);
+  return await prisma.addons.findMany({
+    where: { addonCategoryId: { in: addonCategoryIds } },
+  });
+}
+
+export async function getCompanyTables() {
+  const locationIds = (
+    await prisma.locations.findMany({
+      where: { companyId: await getCompanyId() },
+    })
+  ).map(location => location.id);
+  return await prisma.tables.findMany({
+    where: { locationId: { in: locationIds } },
+  });
+}
+
+export async function getCompanyLocations() {
+  return await prisma.locations.findMany({
+    where: { companyId: await getCompanyId() },
+  });
+}
