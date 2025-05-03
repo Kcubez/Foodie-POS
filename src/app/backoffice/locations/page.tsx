@@ -1,11 +1,11 @@
 import { Box, Button, Card } from '@mui/material';
 import ItemCard from '@/components/ItemCard';
-import TableBarIcon from '@mui/icons-material/TableBar';
+import LocationOn from '@mui/icons-material/LocationOn';
 import Link from 'next/link';
-import { getCompanyTables } from '@/libs/actions';
+import { getCompanyLocations } from '@/libs/actions';
 
-export default async function TablesPage() {
-  const tables = await getCompanyTables();
+export default async function LocationsPage() {
+  const locations = await getCompanyLocations();
 
   return (
     <>
@@ -15,7 +15,7 @@ export default async function TablesPage() {
           justifyContent: 'flex-end',
         }}
       >
-        <Link href="/backoffice/tables/new">
+        <Link href="/backoffice/locations/new">
           <Button
             variant="contained"
             sx={{
@@ -25,17 +25,17 @@ export default async function TablesPage() {
               '&:hover': { bgcolor: '#2d4466' },
             }}
           >
-            New Table
+            New Location
           </Button>
         </Link>
       </Box>
       <Box sx={{ mt: 3, display: 'flex', flexWrap: 'wrap' }}>
-        {tables.map(table => (
+        {locations.map(location => (
           <ItemCard
-            key={table.id}
-            icon={<TableBarIcon fontSize="large" />}
-            title={table.name}
-            href={`/backoffice/tables/${table.id}`}
+            key={location.id}
+            icon={<LocationOn fontSize="large" />}
+            title={location.name}
+            href={`/backoffice/locations/${location.id}`}
             isAvailable
           />
         ))}

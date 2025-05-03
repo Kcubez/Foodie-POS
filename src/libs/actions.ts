@@ -128,6 +128,7 @@ export async function getCompanyTables() {
 
 export async function getCompanyLocations() {
   return await prisma.locations.findMany({
+    orderBy: { name: 'asc' },
     where: { companyId: await getCompanyId() },
   });
 }

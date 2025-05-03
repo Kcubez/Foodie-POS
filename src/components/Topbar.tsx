@@ -1,7 +1,9 @@
-'use client';
-import { signOut } from 'next-auth/react';
+import { getCompanyLocations } from '@/libs/actions';
+import LocationSignOut from './LocationSignOut';
 
-export function Topbar() {
+export async function Topbar() {
+  const locations = await getCompanyLocations();
+
   return (
     <div
       style={{
@@ -15,10 +17,8 @@ export function Topbar() {
       }}
     >
       <h2>Foodie POS</h2>
-      <h2>Sanchaung</h2>
-      <h2 style={{ cursor: 'pointer' }} onClick={() => signOut()}>
-        Logout
-      </h2>
+
+      <LocationSignOut locations={locations} />
     </div>
   );
 }
