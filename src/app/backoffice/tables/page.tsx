@@ -1,11 +1,27 @@
+'use client';
+
 import { Box, Button, Card } from '@mui/material';
 import ItemCard from '@/components/ItemCard';
 import TableBarIcon from '@mui/icons-material/TableBar';
 import Link from 'next/link';
-import { getCompanyTables } from '@/libs/actions';
+import { Tables } from '@prisma/client';
+import { use, useEffect, useState } from 'react';
+import { get } from 'http';
+import { getLocation } from '../locations/actions';
+import { getLocationTables } from '@/libs/actions';
 
-export default async function TablesPage() {
-  const tables = await getCompanyTables();
+export default function TablesPage() {
+  const [tables, setTables] = useState<Tables[]>([]);
+
+  useEffect(() => {
+    handleGetLocationTables();
+  }, []);
+
+  const handleGetLocationTables = async () => {
+    const currentLocationId = localStorage.getItem('currentLocationId');
+    const locationTables = await getLocationTables(Number(currentLocationId));
+    setTables(locationTables);
+  };
 
   return (
     <>

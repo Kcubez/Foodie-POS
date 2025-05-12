@@ -21,7 +21,7 @@ export default function LocationSignOut({ locations }: Props) {
       );
       setCurrentLocation(currentLocation);
     }
-  }, []);
+  }, [locations]);
 
   return (
     <>

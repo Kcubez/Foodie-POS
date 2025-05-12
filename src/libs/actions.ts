@@ -115,14 +115,20 @@ export async function getCompanyAddons() {
   });
 }
 
-export async function getCompanyTables() {
-  const locationIds = (
-    await prisma.locations.findMany({
-      where: { companyId: await getCompanyId() },
-    })
-  ).map(location => location.id);
+// export async function getCompanyTables() {
+//   const locationIds = (
+//     await prisma.locations.findMany({
+//       where: { companyId: await getCompanyId() },
+//     })
+//   ).map(location => location.id);
+//   return await prisma.tables.findMany({
+//     where: { locationId: { in: locationIds } },
+//   });
+// }
+
+export async function getLocationTables(locationId: number) {
   return await prisma.tables.findMany({
-    where: { locationId: { in: locationIds } },
+    where: { locationId },
   });
 }
 

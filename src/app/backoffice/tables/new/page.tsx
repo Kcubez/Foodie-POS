@@ -1,18 +1,22 @@
-import { Box, Button, Checkbox, FormControlLabel, TextField, Typography } from '@mui/material';
+'use client';
+import { Box, Button, TextField } from '@mui/material';
 import { createTable } from '../actions';
-import { getCompanyAddonCategories } from '@/libs/actions';
+import { useRef } from 'react';
 
-export default async function NewTablePage() {
-  const addonCategories = await getCompanyAddonCategories();
+export default function NewTablePage() {
+  const ref = useRef<HTMLFormElement>(null);
+
+  const handleCreateTable = () => {
+    if (!ref.current) return;
+    const fd = new FormData(ref.current);
+    const locationId = localStorage.getItem('currentLocationId') as string;
+    fd.set('locationId', locationId);
+    createTable(fd);
+  };
 
   return (
-    <Box
-      sx={{ mt: 2, display: 'flex', flexDirection: 'column' }}
-      component="form"
-      action={createTable}
-    >
+    <Box ref={ref} sx={{ mt: 2, display: 'flex', flexDirection: 'column' }} component="form">
       <TextField placeholder="Name" label="Name" name="name" />
-
       <Button
         variant="contained"
         sx={{
@@ -21,7 +25,7 @@ export default async function NewTablePage() {
           bgcolor: '#1D3557',
           '&:hover': { bgcolor: '#2d4466' },
         }}
-        type="submit"
+        onClick={handleCreateTable}
       >
         Create
       </Button>

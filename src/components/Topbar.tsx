@@ -1,4 +1,5 @@
 import { getCompanyLocations } from '@/libs/actions';
+import { signOut } from 'next-auth/react';
 import LocationSignOut from './LocationSignOut';
 
 export async function Topbar() {
@@ -17,7 +18,6 @@ export async function Topbar() {
       }}
     >
       <h2>Foodie POS</h2>
-
       <LocationSignOut locations={locations} />
     </div>
   );

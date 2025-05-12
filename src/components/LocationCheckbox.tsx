@@ -10,7 +10,12 @@ interface Props {
 export default function LocationCheckbox({ id, locations }: Props) {
   return (
     <FormControlLabel
-      control={<Checkbox defaultChecked={id === localStorage.getItem('currentLocationId')} />}
+      control={
+        <Checkbox
+          defaultChecked={id === localStorage.getItem('currentLocationId')}
+          name="menuCategories"
+        />
+      }
       label={'Current Location'}
       onChange={(_, checked) => {
         if (checked) {

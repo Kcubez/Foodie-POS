@@ -27,8 +27,12 @@ export async function updateTable(formData: FormData) {
 
 export async function createTable(formData: FormData) {
   const name = formData.get('name') as string;
+  const locationId = Number(formData.get('locationId'));
   await prisma.tables.create({
-    data: { name, locationId: (await getCompanyLocations())[0].id },
+    data: {
+      name,
+      locationId: locationId,
+    },
   });
   redirect('/backoffice/tables');
 }
