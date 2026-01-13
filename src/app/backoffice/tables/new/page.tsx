@@ -1,17 +1,23 @@
 'use client';
 import { Box, Button, TextField } from '@mui/material';
 import { createTable } from '../actions';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 
 export default function NewTablePage() {
   const ref = useRef<HTMLFormElement>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleCreateTable = () => {
+  const handleCreateTable = async () => {
     if (!ref.current) return;
-    const fd = new FormData(ref.current);
-    const locationId = localStorage.getItem('currentLocationId') as string;
-    fd.set('locationId', locationId);
-    createTable(fd);
+    setIsLoading(true);
+    try {
+      const fd = new FormData(ref.current);
+      const locationId = localStorage.getItem('currentLocationId') as string;
+      fd.set('locationId', locationId);
+      await createTable(fd);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -26,8 +32,9 @@ export default function NewTablePage() {
           '&:hover': { bgcolor: '#2d4466' },
         }}
         onClick={handleCreateTable}
+        disabled={isLoading}
       >
-        Create
+        {isLoading ? 'Creating...' : 'Create'}
       </Button>
     </Box>
   );

@@ -1,23 +1,21 @@
 import { Box, Button, TextField } from '@mui/material';
-
-import { MenuCategories } from '@prisma/client';
 import { createNewMenuCategory } from '../actions';
 
 export default function NewMenuCategoryPage() {
   return (
     <Box
       component={'form'}
-      sx={{ mt: 2, display: 'flex', flexDirection: 'column' }}
       action={createNewMenuCategory}
+      sx={{ mt: 2, display: 'flex', flexDirection: 'column' }}
     >
-      <TextField placeholder="Name" defaultValue={''} name="menuCategoryName" />
+      <TextField placeholder="Name" defaultValue={''} name="name" />
       <Button
         variant="contained"
         type="submit"
         sx={{
+          bgcolor: '#1D3557',
           width: 'fit-content',
           mt: 3,
-          bgcolor: '#1D3557',
           '&:hover': { bgcolor: '#2d4466' },
         }}
       >

@@ -4,22 +4,12 @@ import { createLocation } from '../actions';
 export default async function NewLocationPage() {
   return (
     <Box
-      sx={{ mt: 2, display: 'flex', flexDirection: 'column' }}
-      component="form"
+      component={'form'}
       action={createLocation}
+      sx={{ mt: 2, display: 'flex', flexDirection: 'column' }}
     >
       <TextField placeholder="Name" label="Name" name="name" />
-
-      <Button
-        variant="contained"
-        sx={{
-          width: 'fit-content',
-          mt: 3,
-          bgcolor: '#1D3557',
-          '&:hover': { bgcolor: '#2d4466' },
-        }}
-        type="submit"
-      >
+      <Button variant="contained" sx={{ width: 'fit-content', mt: 3 }} type="submit">
         Create
       </Button>
     </Box>

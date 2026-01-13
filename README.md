@@ -1,36 +1,181 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🍕 Foodie POS
 
-## Getting Started
+A modern, full-stack **Point of Sale (POS) system** for restaurants and food businesses built with Next.js 15, featuring a comprehensive back-office management dashboard and a customer-facing QR code ordering system.
 
-First, run the development server:
+![Next.js](https://img.shields.io/badge/Next.js-15.1-black?logo=next.js)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?logo=typescript)
+![Prisma](https://img.shields.io/badge/Prisma-5.18-2D3748?logo=prisma)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-4169E1?logo=postgresql)
+![MUI](https://img.shields.io/badge/MUI-5.16-007FFF?logo=mui)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## ✨ Features
+
+### 🏢 Back-Office Management Dashboard
+
+- **Menu Management** - Create, edit, and organize menu items with images and pricing
+- **Menu Categories** - Organize menus into categories for easy navigation
+- **Addon Categories & Addons** - Configure optional/required add-ons for menu items
+- **Multi-Location Support** - Manage multiple restaurant locations from a single dashboard
+- **Table Management** - Create and manage tables with auto-generated QR codes
+- **Order Management** - Real-time order tracking with status updates (Cart → Pending → Cooking → Complete)
+- **Company Settings** - Configure company information and preferences
+
+### 📱 Customer-Facing Order App
+
+- **QR Code Ordering** - Customers scan table QR codes to access digital menus
+- **Interactive Menu** - Browse menu categories and items with images
+- **Addon Selection** - Choose required and optional add-ons for each item
+- **Shopping Cart** - Review and modify orders before submission
+- **Order Tracking** - Real-time order status updates
+
+### 🔐 Authentication & Security
+
+- **NextAuth.js Integration** - Secure authentication with multiple providers
+- **Role-based Access** - Separate admin and customer interfaces
+- **Session Management** - Secure session handling
+
+## 🛠️ Tech Stack
+
+| Category            | Technology              |
+| ------------------- | ----------------------- |
+| **Framework**       | Next.js 15 (App Router) |
+| **Language**        | TypeScript              |
+| **Database**        | PostgreSQL              |
+| **ORM**             | Prisma                  |
+| **Authentication**  | NextAuth.js             |
+| **UI Library**      | Material UI (MUI)       |
+| **Styling**         | Emotion CSS-in-JS       |
+| **File Storage**    | Vercel Blob             |
+| **QR Code**         | qrcode library          |
+| **Form Validation** | Zod                     |
+| **Notifications**   | React Hot Toast         |
+
+## 📁 Project Structure
+
+```
+foodie-pos/
+├── prisma/
+│   ├── schema.prisma          # Database schema
+│   └── migrations/            # Database migrations
+├── public/                    # Static assets
+├── src/
+│   ├── app/
+│   │   ├── api/               # API routes
+│   │   ├── auth/              # Authentication pages
+│   │   ├── backoffice/        # Admin dashboard
+│   │   │   ├── menus/         # Menu management
+│   │   │   ├── menu-categories/
+│   │   │   ├── addon-categories/
+│   │   │   ├── addons/
+│   │   │   ├── locations/
+│   │   │   ├── tables/
+│   │   │   ├── orders/
+│   │   │   └── settings/
+│   │   └── order/             # Customer ordering app
+│   │       ├── menus/
+│   │       ├── cart/
+│   │       └── active-order/
+│   ├── components/            # Reusable UI components
+│   ├── config/                # App configuration
+│   └── libs/                  # Utility functions & actions
+└── package.json
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 Getting Started
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Prerequisites
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Node.js 18+
+- PostgreSQL database
+- npm or yarn
 
-## Learn More
+### Installation
 
-To learn more about Next.js, take a look at the following resources:
+1. **Clone the repository**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   ```bash
+   git clone https://github.com/kcubez/foodie-pos.git
+   cd foodie-pos
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+2. **Install dependencies**
 
-## Deploy on Vercel
+   ```bash
+   npm install
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+3. **Set up environment variables**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+   ```bash
+   cp .env.example .env
+   ```
+
+   Configure the following variables:
+
+   ```env
+   DATABASE_URL="postgresql://..."
+   NEXTAUTH_SECRET="your-secret-key"
+   NEXTAUTH_URL="http://localhost:3000"
+   BLOB_READ_WRITE_TOKEN="your-vercel-blob-token"
+   ```
+
+4. **Run database migrations**
+
+   ```bash
+   npx prisma migrate dev
+   npx prisma generate
+   ```
+
+5. **Start the development server**
+
+   ```bash
+   npm run dev
+   ```
+
+6. **Open [http://localhost:3000](http://localhost:3000)** in your browser
+
+## 📊 Database Schema
+
+The application uses a relational database with the following main entities:
+
+- **Company** - Restaurant/business information
+- **Users** - Admin users with company association
+- **Locations** - Physical restaurant locations
+- **Tables** - Dining tables with QR codes
+- **MenuCategories** - Categories for organizing menus
+- **Menus** - Food/drink items with pricing and images
+- **AddonCategories** - Groups of add-ons (e.g., "Toppings", "Sizes")
+- **Addons** - Individual add-on items with pricing
+- **Orders** - Customer orders with status tracking
+- **OrdersAddons** - Add-ons associated with orders
+
+## 🌐 Deployment
+
+### Deploy on Vercel
+
+The easiest way to deploy is using [Vercel](https://vercel.com):
+
+1. Push your code to GitHub
+2. Import the repository in Vercel
+3. Configure environment variables
+4. Deploy!
+
+```bash
+npm run build
+```
+
+## 📝 License
+
+This project is licensed under the MIT License.
+
+## 👨‍💻 Author
+
+**Kaung Khant Kyaw**
+
+- Full Stack Developer
+- [GitHub](https://github.com/Kcubez)
+- [LinkedIn](https://linkedin.com/in/kaungkhantkyaw-kcubez)
+
+---
+
+⭐ If you found this project helpful, please give it a star!

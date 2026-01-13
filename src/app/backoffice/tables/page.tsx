@@ -1,27 +1,11 @@
-'use client';
-
-import { Box, Button, Card } from '@mui/material';
 import ItemCard from '@/components/ItemCard';
-import TableBarIcon from '@mui/icons-material/TableBar';
+import { Box, Button } from '@mui/material';
 import Link from 'next/link';
-import { Tables } from '@prisma/client';
-import { use, useEffect, useState } from 'react';
-import { get } from 'http';
-import { getLocation } from '../locations/actions';
-import { getLocationTables } from '@/libs/actions';
+import TableBarIcon from '@mui/icons-material/TableBar';
+import { getSelectedLocationTables } from '@/libs/actions';
 
-export default function TablesPage() {
-  const [tables, setTables] = useState<Tables[]>([]);
-
-  useEffect(() => {
-    handleGetLocationTables();
-  }, []);
-
-  const handleGetLocationTables = async () => {
-    const currentLocationId = localStorage.getItem('currentLocationId');
-    const locationTables = await getLocationTables(Number(currentLocationId));
-    setTables(locationTables);
-  };
+export default async function TablesPage() {
+  const tables = await getSelectedLocationTables();
 
   return (
     <>
@@ -31,17 +15,15 @@ export default function TablesPage() {
           justifyContent: 'flex-end',
         }}
       >
-        <Link href="/backoffice/tables/new">
+        <Link href={'/backoffice/tables/new'}>
           <Button
             variant="contained"
             sx={{
-              width: 'fit-content',
-              mt: 3,
               bgcolor: '#1D3557',
               '&:hover': { bgcolor: '#2d4466' },
             }}
           >
-            New Table
+            New table
           </Button>
         </Link>
       </Box>

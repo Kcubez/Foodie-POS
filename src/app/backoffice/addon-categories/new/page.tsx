@@ -7,13 +7,20 @@ export default async function NewAddonCategoryPage() {
   return (
     <Box
       component={'form'}
-      sx={{ mt: 2, display: 'flex', flexDirection: 'column' }}
       action={createNewAddonCategory}
+      sx={{ mt: 2, display: 'flex', flexDirection: 'column' }}
     >
       <TextField placeholder="Name" defaultValue={''} name="name" />
       <Box sx={{ my: 2 }}>
-        <Typography sx={{ mb: 1 }}>Menus</Typography>
-        <Box sx={{ border: '1px solid lightgrey', borderRadius: 1, px: 1.2, py: 1 }}>
+        <Typography>Menus</Typography>
+        <Box
+          sx={{
+            border: '1px solid lightgray',
+            px: 1.2,
+            py: 1,
+            borderRadius: 1,
+          }}
+        >
           {menus.map(menu => (
             <FormControlLabel
               key={menu.id}
@@ -23,14 +30,14 @@ export default async function NewAddonCategoryPage() {
           ))}
         </Box>
       </Box>
-      <FormControlLabel control={<Checkbox defaultChecked />} label="Required" name="isRequired" />
+      <FormControlLabel control={<Checkbox defaultChecked name="isRequired" />} label="Required" />
       <Button
         variant="contained"
         type="submit"
         sx={{
+          bgcolor: '#1D3557',
           width: 'fit-content',
           mt: 3,
-          bgcolor: '#1D3557',
           '&:hover': { bgcolor: '#2d4466' },
         }}
       >

@@ -1,8 +1,6 @@
-import { Box, Button, Checkbox, FormControlLabel, TextField, Typography } from '@mui/material';
-
+import { Box, Button, Checkbox, FormControlLabel, TextField } from '@mui/material';
 import { deleteLocation, getLocation, updateLocation } from '../actions';
-import LocationCheckbox from '@/components/LocationCheckbox';
-import { getCompanyLocations } from '@/libs/actions';
+import { getSelectedLocation } from '@/libs/actions';
 
 interface Props {
   params: {
@@ -11,9 +9,10 @@ interface Props {
 }
 
 export default async function LocationUpdatePage({ params }: Props) {
-  const { id } = await params;
+  const { id } = params;
   const location = await getLocation(Number(id));
-  const locations = await getCompanyLocations();
+  const selectedLocation = await getSelectedLocation();
+  const isSelected = Number(id) === selectedLocation?.locationId;
 
   return (
     <>
@@ -22,22 +21,29 @@ export default async function LocationUpdatePage({ params }: Props) {
         action={deleteLocation}
         sx={{ display: 'flex', justifyContent: 'flex-end' }}
       >
-        <input type="hidden" value={id} name="id" />
+        <input hidden defaultValue={id} name="id" />
         <Button type="submit" variant="contained" sx={{ width: 'fit-content' }} color="error">
           Delete
         </Button>
       </Box>
-
       <Box
         component={'form'}
         action={updateLocation}
         sx={{ mt: 2, display: 'flex', flexDirection: 'column' }}
       >
-        <input type="hidden" value={id} name="id" />
+        <input hidden defaultValue={id} name="id" />
         <TextField defaultValue={location.name} label="Name" name="name" />
-        <LocationCheckbox id={id} locations={locations} />
-
-        <Button type="submit" variant="contained" sx={{ width: 'fit-content', mt: 3 }}>
+        <FormControlLabel
+          control={
+            <Checkbox
+              name="selected"
+              value={isSelected ? true : false}
+              defaultChecked={isSelected}
+            />
+          }
+          label={'Selected location'}
+        />
+        <Button variant="contained" sx={{ width: 'fit-content', mt: 3 }} type="submit">
           Update
         </Button>
       </Box>

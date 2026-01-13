@@ -6,35 +6,33 @@ import { signIn } from 'next-auth/react';
 
 export default function SignIn() {
   return (
-    <>
-      <Box
+    <Box
+      sx={{
+        width: '100vw',
+        height: '100vh',
+        bgcolor: '#F1FAEE',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'column',
+      }}
+    >
+      <Typography variant="h2">Welcome back!</Typography>
+      <Typography sx={{ textAlign: 'center', mb: 5, maxWidth: 400 }}>
+        Sign in to your account to access your backoffice and manage your menus.
+      </Typography>
+      <Button
         sx={{
-          width: '100vw',
-          height: '100vh',
-          bgcolor: '#F1FAEE',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          flexDirection: 'column',
+          bgcolor: '#1D3557',
+          color: 'white',
+          '&:hover': { bgcolor: '#457B9D' },
         }}
+        variant="contained"
+        startIcon={<GoogleIcon />}
+        onClick={() => signIn('google', { callbackUrl: '/backoffice' })}
       >
-        <Typography variant="h2">Welcome back!</Typography>
-        <Typography sx={{ textAlign: 'center', mb: 5, maxWidth: 400 }}>
-          Sign in to your account to access your backoffice and manage your menus.
-        </Typography>
-        <Button
-          sx={{
-            bgcolor: '#1D3557',
-            color: 'white',
-            '&:hover': { bgcolor: '#457B9D' },
-          }}
-          variant="contained"
-          startIcon={<GoogleIcon />}
-          onClick={() => signIn('google', { callbackUrl: '/backoffice' })}
-        >
-          Sign in with Google
-        </Button>
-      </Box>
-    </>
+        Sign in with Google
+      </Button>
+    </Box>
   );
 }

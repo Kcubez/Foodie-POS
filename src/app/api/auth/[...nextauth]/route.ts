@@ -9,7 +9,7 @@ interface Props {
   user: User | AdapterUser;
 }
 
-export const authOptions = {
+const authOptions = {
   providers: [
     GoogleProvider({
       clientId: config.googleClientId,
@@ -33,4 +33,5 @@ export const authOptions = {
 };
 
 const handler = NextAuth(authOptions);
+
 export { handler as GET, handler as POST };

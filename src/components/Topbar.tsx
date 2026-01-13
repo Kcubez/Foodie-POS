@@ -1,9 +1,8 @@
-import { getCompanyLocations } from '@/libs/actions';
-import { signOut } from 'next-auth/react';
-import LocationSignOut from './LocationSignOut';
+import { getCompanyLocations, getSelectedLocation } from '@/libs/actions';
+import SignOutButton from './SignOutButton';
 
 export async function Topbar() {
-  const locations = await getCompanyLocations();
+  const selectedLocation = await getSelectedLocation();
 
   return (
     <div
@@ -18,7 +17,8 @@ export async function Topbar() {
       }}
     >
       <h2>Foodie POS</h2>
-      <LocationSignOut locations={locations} />
+      <h2>{selectedLocation?.location.name}</h2>
+      <SignOutButton />
     </div>
   );
 }

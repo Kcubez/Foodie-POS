@@ -1,66 +1,90 @@
 import React from 'react';
-import { Card, CardContent, Typography, Box, Chip } from '@mui/material';
+import { Card, CardContent, Typography, Box, Chip, CardMedia } from '@mui/material';
 import Link from 'next/link';
-import { Menus } from '@prisma/client';
+import { getSelectedLocation } from '@/libs/actions';
+import { integerToMyanmar } from '@/libs/generals';
 
 interface Props {
-  menu: Menus;
+  href: string;
+  imageUrl: string;
+  name: string;
+  price: number | null;
+  isAvailable?: boolean;
+  showIsAvaialble?: boolean;
 }
 
-export default function MenuCard({ menu }: Props) {
-  const { name, price, isAvailable } = menu;
+export default function MenuCard({
+  href,
+  imageUrl,
+  name,
+  price,
+  isAvailable,
+  showIsAvaialble,
+}: Props) {
+  const priceInMyanmar = integerToMyanmar(price || 0);
   return (
-    <Link href={`/backoffice/menus/${menu.id}`} style={{ textDecoration: 'none' }}>
+    <Link href={href} style={{ textDecoration: 'none' }}>
       <Card
         sx={{
-          width: '100%',
-          maxWidth: 300,
+          width: 285,
           borderRadius: 2,
-          boxShadow: 3,
-          mr: 2,
-          mb: 5,
+          mr: 3,
+          mb: 3,
+          transition: 'transform 0.3s, box-shadow 0.3s',
+          cursor: 'pointer',
+          '&:hover': {
+            transform: 'scale(1.02)',
+            boxShadow: 6,
+          },
         }}
       >
-        <img
-          src="https://images.squarespace-cdn.com/content/v1/5a81c36ea803bb1dd7807778/1610403788186-K2ATWJRYLHVC4ENCZZ7D/Shan+khaut+swe+%28Shan+sticky+noodles%29"
+        <CardMedia
+          component="img"
+          image={imageUrl}
           alt="Menu Item"
-          width="300"
-          height="120"
-          style={{
-            borderTopLeftRadius: 8,
-            borderTopRightRadius: 8,
+          sx={{
+            width: '100%',
+            height: 100,
+            borderRadius: '8px 8px 0 0',
             objectFit: 'cover',
           }}
         />
-        <CardContent sx={{ padding: 3, display: 'flex', flexDirection: 'column', gap: 2 }}>
+        <CardContent sx={{ p: 2 }}>
           <Box
             sx={{
               display: 'flex',
-              justifyContent: 'space-between',
               alignItems: 'center',
+              justifyContent: 'space-between',
+              mb: 2,
             }}
           >
-            <Typography variant="h6" fontWeight="bold">
+            <Typography variant="h6" fontWeight="bold" mr={2}>
               {name}
             </Typography>
-            <Typography variant="body1" color="primary">
-              ${price}
-            </Typography>
-          </Box>
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}
-          >
             <Chip
-              label={menu.isAvailable ? 'Available' : 'Sold out'}
-              color={menu.isAvailable ? 'success' : 'error'}
-              variant="outlined"
-              sx={{ fontSize: '0.75rem', padding: '2px 8px' }}
+              label={`${priceInMyanmar}`}
+              variant="filled"
+              sx={{
+                bgcolor: '#A8DADC',
+                color: '#1D3557',
+                fontWeight: 'medium',
+              }}
             />
           </Box>
+          {showIsAvaialble && (
+            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+              <Chip
+                label={isAvailable ? 'Available' : 'Sold out'}
+                variant="outlined"
+                sx={{
+                  fontWeight: 'medium',
+                  bgcolor: isAvailable ? '#DCFCE6' : '#E63946',
+                  color: isAvailable ? '#1D3557' : '#F1FAEE',
+                  border: 0,
+                }}
+              />
+            </Box>
+          )}
         </CardContent>
       </Card>
     </Link>

@@ -16,30 +16,35 @@ export async function getAddons() {
 }
 
 export async function updateAddon(formData: FormData) {
-  const id = Number(formData.get('id'));
+  const id = formData.get('id');
   const name = formData.get('name') as string;
-  const price = Number(formData.get('price'));
-  const isAvailable = formData.get('isAvailable') ? true : false;
-  const addonCategoryId = Number(formData.get('addonCategoryId'));
+  const price = formData.get('price');
+  const isAvailable = formData.get('isAvailable');
+  const addonCategoryId = formData.get('addonCategoryId');
   await prisma.addons.update({
     data: {
       name,
-      price,
-      isAvailable,
-      addonCategoryId,
+      price: Number(price),
+      isAvailable: isAvailable ? true : false,
+      addonCategoryId: Number(addonCategoryId),
     },
-    where: { id },
+    where: { id: Number(id) },
   });
   redirect('/backoffice/addons');
 }
 
-export async function createAddons(formData: FormData) {
+export async function createAddon(formData: FormData) {
   const name = formData.get('name') as string;
   const price = formData.get('price');
   const isAvailable = formData.get('isAvailable') ? true : false;
-  const addonCategoryId = Number(formData.get('addonCategoryId'));
+  const addonCategoryId = formData.get('addonCategoryId');
   await prisma.addons.create({
-    data: { name, price: Number(price), isAvailable, addonCategoryId },
+    data: {
+      name,
+      price: Number(price),
+      isAvailable,
+      addonCategoryId: Number(addonCategoryId),
+    },
   });
   redirect('/backoffice/addons');
 }

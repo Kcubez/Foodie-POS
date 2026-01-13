@@ -1,13 +1,13 @@
-import { Box, Button, Card } from '@mui/material';
 import ItemCard from '@/components/ItemCard';
+import { Box, Button } from '@mui/material';
 import EggIcon from '@mui/icons-material/Egg';
-import Link from 'next/link';
 import { prisma } from '@/libs/prisma';
+import Link from 'next/link';
+import ClassIcon from '@mui/icons-material/Class';
 import { getCompanyAddons } from '@/libs/actions';
 
 export default async function AddonsPage() {
   const addons = await getCompanyAddons();
-
   return (
     <>
       <Box
@@ -16,12 +16,10 @@ export default async function AddonsPage() {
           justifyContent: 'flex-end',
         }}
       >
-        <Link href="/backoffice/addons/new">
+        <Link href={'/backoffice/addons/new'}>
           <Button
             variant="contained"
             sx={{
-              width: 'fit-content',
-              mt: 3,
               bgcolor: '#1D3557',
               '&:hover': { bgcolor: '#2d4466' },
             }}
